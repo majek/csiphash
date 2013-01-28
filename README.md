@@ -24,6 +24,8 @@ Extract from the description:
       Rust.
 
 
+Introductory blog post: https://idea.popcount.org/2013-01-24-siphash/
+
 installation
 ---
 
