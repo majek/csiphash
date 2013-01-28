@@ -20,8 +20,10 @@
  THE SOFTWARE.
  </MIT License>
 
+ Original location:
+    https://github.com/majek/csiphash/
 
- Solution based on code by:
+ Solution inspired by code from:
     Samuel Neves (supercop/crypto_auth/siphash24/little)
     djb (supercop/crypto_auth/siphash24/little2)
     Jean-Philippe Aumasson (https://131002.net/siphash/siphash24.c)
@@ -41,7 +43,7 @@ typedef uint8_t u8;
 typedef uint32_t u32;
 typedef uint64_t u64;
 
-#define ROTATE(x,b) (u64)( ((x) << (b)) | ( (x) >> (64 - (b))) )
+#define ROTATE(x, b) (u64)( ((x) << (b)) | ( (x) >> (64 - (b))) )
 
 #define HALF_ROUND(a,b,c,d,s,t)			\
 	a += b; c += d;				\
@@ -56,10 +58,10 @@ typedef uint64_t u64;
 	HALF_ROUND(v2,v1,v0,v3,17,21);
 
 
-uint64_t siphash24(const char *src, unsigned long inlen, const char k[16]) {
-	u64 k0 = le64toh(*(u64 *)(k));
-	u64 k1 = le64toh(*(u64 *)(k + 8));
-	u64 b = (u64)inlen << 56;
+uint64_t siphash24(const char *src, unsigned long src_sz, const char key[16]) {
+	u64 k0 = le64toh(*(u64 *)(key));
+	u64 k1 = le64toh(*(u64 *)(key + 8));
+	u64 b = (u64)src_sz << 56;
 	u64 *in = (u64*)src;
 
 	u64 v0 = k0 ^ 0x736f6d6570736575ULL;
@@ -67,16 +69,16 @@ uint64_t siphash24(const char *src, unsigned long inlen, const char k[16]) {
 	u64 v2 = k0 ^ 0x6c7967656e657261ULL;
 	u64 v3 = k1 ^ 0x7465646279746573ULL;
 
-	while (inlen >= 8) {
+	while (src_sz >= 8) {
 		u64 mi = le64toh(*in);
-		in += 1; inlen -= 8;
+		in += 1; src_sz -= 8;
 		v3 ^= mi;
 		DOUBLE_ROUND(v0,v1,v2,v3);
 		v0 ^= mi;
 	}
 
 	u64 t = 0; u8 *pt = (u8 *)&t; u8 *m = (u8 *)in;
-	switch (inlen) {
+	switch (src_sz) {
 	case 7: pt[6] = m[6];
 	case 6: pt[5] = m[5];
 	case 5: pt[4] = m[4];

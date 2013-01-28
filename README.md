@@ -47,8 +47,8 @@ Shortest program:
 #include <stdint.h>
 #include <string.h>
 
-uint64_t siphash24(const char *in, unsigned long inlen,
-                   const char k[16]);
+uint64_t siphash24(const char *src, unsigned long src_sz,
+                   const char key[16]);
 
 int main() {
     char key[16] = {0,1,2,3,4,5,6,7,8,9,0xa,0xb,0xc,0xd,0xe,0xf};
