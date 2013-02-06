@@ -58,7 +58,7 @@ typedef uint64_t u64;
 	HALF_ROUND(v2,v1,v0,v3,17,21);
 
 
-uint64_t siphash24(const char *src, unsigned long src_sz, const char key[16]) {
+uint64_t siphash24(const void *src, unsigned long src_sz, const char key[16]) {
 	u64 k0 = le64toh(*(u64 *)(key));
 	u64 k1 = le64toh(*(u64 *)(key + 8));
 	u64 b = (u64)src_sz << 56;

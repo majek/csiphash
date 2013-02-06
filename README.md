@@ -33,8 +33,8 @@ Copy `csiphash.c` to your code directory and define the declaration
 somewhere:
 
 ```c
-uint64_t siphash24(const char *src,
-                   unsigned long inlen,
+uint64_t siphash24(const void *src,
+                   unsigned long src_sz,
                    const char k[16]);
 ```
 
@@ -49,7 +49,8 @@ Shortest program:
 #include <stdint.h>
 #include <string.h>
 
-uint64_t siphash24(const char *src, unsigned long src_sz,
+uint64_t siphash24(const void *src,
+                   unsigned long src_sz,
                    const char key[16]);
 
 int main() {
