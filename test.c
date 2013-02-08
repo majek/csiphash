@@ -34,7 +34,7 @@ uint64_t vectors[64] = {
 };
 
 
-int main(int argc, char **argv) {
+int main() {
 	int i;
 	char key[16] = {0,1,2,3,4,5,6,7,8,9,0xa,0xb,0xc,0xd,0xe,0xf};
 	char plaintext[64];
