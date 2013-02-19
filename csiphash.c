@@ -40,7 +40,7 @@
 #endif
 
 #ifndef le64toh
-#   define le646oh(x)                                  \
+#   define le64toh(x)                                  \
     (((uint64_t)(x) << 56) |                           \
      (((uint64_t)(x) << 40) & 0X00FF000000000000ULL) | \
      (((uint64_t)(x) << 24) & 0X0000FF0000000000ULL) | \
