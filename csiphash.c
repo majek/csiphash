@@ -31,13 +31,24 @@
 
 #include <stdint.h>
 
-#if defined(__APPLE__)
-#  include <libkern/OSByteOrder.h>
-#  define le64toh(x) OSSwapLittleToHostInt64(x)
-#elif defined(__FreeBSD__)
-#  include <sys/endian.h>
-#else
-#  include <endian.h>
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#   define le64toh(x) ((uint64_t)(x))
+#elif defined(__GNUC__) || defined(__clang__)
+#   ifdef __has_builtin && __has_builtin(__builtin_bswap64)
+#       define le64toh(x) __builtin_bswap64(x)
+#   endif
+#endif
+
+#ifndef le64toh
+# define le64toh(x)                          \
+    ((((x) & 0xff00000000000000ULL) >> 56) | \
+     (((x) & 0x00ff000000000000ULL) >> 40) | \
+     (((x) & 0x0000ff0000000000ULL) >> 24) | \
+     (((x) & 0x000000ff00000000ULL) >>  8) | \
+     (((x) & 0x00000000ff000000ULL) <<  8) | \
+     (((x) & 0x0000000000ff0000ULL) << 24) | \
+     (((x) & 0x000000000000ff00ULL) << 40) | \
+     (((x) & 0x00000000000000ffULL) << 56))
 #endif
 
 #define ROTATE(x, b) (uint64_t)( ((x) << (b)) | ( (x) >> (64 - (b))) )
