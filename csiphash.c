@@ -44,7 +44,7 @@
 #else
 
 /* See: http://sourceforge.net/p/predef/wiki/Endianness/ */
-#  if defined(__FreeBSD__)
+#  if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
 #    include <sys/endian.h>
 #  else
 #    include <endian.h>
