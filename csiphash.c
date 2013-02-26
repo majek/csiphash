@@ -42,7 +42,6 @@
 #  include <libkern/OSByteOrder.h>
 #  define _le64toh(x) OSSwapLittleToHostInt64(x)
 #else
-
 /* See: http://sourceforge.net/p/predef/wiki/Endianness/ */
 #  if defined(__FreeBSD__) || defined(__NetBSD__)
 #    include <sys/endian.h>
@@ -53,13 +52,6 @@
 #  else
 #    include <endian.h>
 #  endif
-#  if defined(__BYTE_ORDER) && defined(__LITTLE_ENDIAN) && \
-	__BYTE_ORDER == __LITTLE_ENDIAN
-#    define _le64toh(x) ((uint64_t)(x))
-#  else
-#    define _le64toh(x) le64toh(x)
-#  endif
-
 #endif
 
 
