@@ -48,10 +48,10 @@
 #  if defined(__FreeBSD__) || defined(__NetBSD__) ||
 #     defined(__OpenBSD__) || defined(__DragonflyBSD__)
 #    include <sys/endian.h>
-/* See: http://www.openbsd.org/cgi-bin/man.cgi?query=byteorder */
 #  else
 #    include <endian.h>
 # endif
+/* See: http://www.openbsd.org/cgi-bin/man.cgi?query=byteorder */
 #  if defined(__OpenBSD__)
 #    define _le64toh(x) letoh64(x)
 #  else  
