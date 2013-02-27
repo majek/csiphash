@@ -45,8 +45,8 @@
 
 #if !defined(_le64toh)
 /* See: http://sourceforge.net/p/predef/wiki/Endianness/ */
-#  if defined(__FreeBSD__) || defined(__NetBSD__) ||
-#     defined(__OpenBSD__) || defined(__DragonflyBSD__)
+#  if defined(__FreeBSD__) || defined(__NetBSD__) || \
+      defined(__OpenBSD__) || defined(__DragonflyBSD__)
 #    include <sys/endian.h>
 #  else
 #    include <endian.h>
