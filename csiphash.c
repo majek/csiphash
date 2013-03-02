@@ -31,34 +31,25 @@
 
 #include <stdint.h>
 
-#if defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__) && \
-	__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-#  define _le64toh(x) ((uint64_t)(x))
-#elif defined(_WIN32)
-/* Windows is always little endian, unless you're on xbox360
-   http://msdn.microsoft.com/en-us/library/b0084kay(v=vs.80).aspx */
-#  define _le64toh(x) ((uint64_t)(x))
-#elif defined(__APPLE__)
-#  include <libkern/OSByteOrder.h>
-#  define _le64toh(x) OSSwapLittleToHostInt64(x)
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#   define _le64toh(x) ((uint64_t)(x))
+#elif defined(__GNUC__) || defined(__clang__)
+#   ifdef __has_builtin && __has_builtin(__builtin_bswap64)
+#       define _le64toh(x) __builtin_bswap64(x)
+#   endif
 #endif
 
-#if !defined(_le64toh)
-/* See: http://sourceforge.net/p/predef/wiki/Endianness/ */
-#  if defined(__FreeBSD__) || defined(__NetBSD__) || \
-      defined(__OpenBSD__) || defined(__DragonflyBSD__)
-#    include <sys/endian.h>
-#  else
-#    include <endian.h>
-# endif
-/* See: http://www.openbsd.org/cgi-bin/man.cgi?query=byteorder */
-#  if defined(__OpenBSD__)
-#    define _le64toh(x) letoh64(x)
-#  else  
-#    define _le64toh(x) le64toh(x)
-#  endif
+#ifndef _le64toh
+#   define _le64toh(x)                                 \
+    (((uint64_t)(x) << 56) |                           \
+     (((uint64_t)(x) << 40) & 0X00FF000000000000ULL) | \
+     (((uint64_t)(x) << 24) & 0X0000FF0000000000ULL) | \
+     (((uint64_t)(x) << 8)  & 0X000000FF00000000ULL) | \
+     (((uint64_t)(x) >> 8)  & 0X00000000FF000000ULL) | \
+     (((uint64_t)(x) >> 24) & 0X0000000000FF0000ULL) | \
+     (((uint64_t)(x) >> 40) & 0X000000000000FF00ULL) | \
+     ((uint64_t)(x)  >> 56))
 #endif
-
 
 #define ROTATE(x, b) (uint64_t)( ((x) << (b)) | ( (x) >> (64 - (b))) )
 
