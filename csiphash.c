@@ -31,14 +31,18 @@
 
 #include <stdint.h>
 
-#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+/* NO-OP for little-endian platforms */
+#if defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__)
+# if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 #   define _le64toh(x) ((uint64_t)(x))
+# endif
+/* use __builtin_bswap64 if available */
 #elif defined(__GNUC__) || defined(__clang__)
-#   ifdef __has_builtin && __has_builtin(__builtin_bswap64)
-#       define _le64toh(x) __builtin_bswap64(x)
-#   endif
+# ifdef __has_builtin && __has_builtin(__builtin_bswap64)
+#   define _le64toh(x) __builtin_bswap64(x)
+# endif
 #endif
-
+/* last resort (big-endian w/o __builtin_bswap64) */
 #ifndef _le64toh
 #   define _le64toh(x)                                 \
     (((uint64_t)(x) << 56) |                           \
