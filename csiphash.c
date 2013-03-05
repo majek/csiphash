@@ -36,6 +36,10 @@
 # if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 #   define _le64toh(x) ((uint64_t)(x))
 # endif
+/* if __BYTE_ORDER__ is not predefined (like FreeBSD), use arch */
+#elif defined(__i386)  || defined(__x86_64) \
+  ||  defined(__alpha) || defined(__vax)
+# define _le64toh(x) ((uint64_t)(x))
 /* use __builtin_bswap64 if available */
 #elif defined(__GNUC__) || defined(__clang__)
 # ifdef __has_builtin && __has_builtin(__builtin_bswap64)
