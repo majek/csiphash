@@ -73,4 +73,4 @@ Type `make`:
 license
 ----
 
-The license is in the header of the `csiphash.c` file.
+This code is released under the MIT License, the full text of which can be found is in the header of [`csiphash.c`](https://github.com/majek/csiphash/blob/master/csiphash.c).
