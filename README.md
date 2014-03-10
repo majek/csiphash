@@ -29,7 +29,7 @@ Introductory blog post: https://idea.popcount.org/2013-01-24-siphash/
 installation
 ---
 
-Copy `csiphash.c` to your code directory and define the declaration
+Copy `csiphash.c` to your code directory and add the declaration
 somewhere:
 
 ```c
