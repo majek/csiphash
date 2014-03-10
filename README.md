@@ -70,3 +70,7 @@ Type `make`:
     $ make
     64 tests passed in 0.008ms, 125ns per test
 
+license
+----
+
+The license is in the header of the `csiphash.c` file.
